@@ -1,5 +1,7 @@
 # 🐀 Moins Cher Qu'un Café (Radin Anonyme)
 
+> **Pourquoi ce projet ?** Tout simplement pour prouver qu'on peut faire tourner un site sur un VPS à 1.20€ par mois. L'objectif ultime : payer l'hébergement le moins cher possible ! (lol)
+
 Bienvenue sur le repaire des économies de bouts de chandelle. Ici, on ne juge pas ceux qui gardent les sachets de thé pour une deuxième tasse, on les célèbre.
 
 ## C'est quoi ce truc ?
