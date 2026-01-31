@@ -28,4 +28,3 @@ Les Pull Requests sont les bienvenues, surtout si elles réduisent la taille du 
 
 ---
 *Fait avec ❤️ et très peu d'argent.*
-# moins-cher-qu-un-caf-

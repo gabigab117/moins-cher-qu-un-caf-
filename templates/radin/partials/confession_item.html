@@ -1,0 +1,10 @@
+<div class="confession-item" id="confession-{{ conf.id }}">
+    <div class="meta">
+        📅 {{ conf.created_at|date:"d/m/Y à H:i" }}
+    </div>
+    <div class="confession-body">
+        {{ conf.body }}
+    </div>
+    
+    {% include 'radin/partials/vote_buttons.html' %}
+</div>

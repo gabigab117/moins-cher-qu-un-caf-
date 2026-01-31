@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moins cher qu'un café - Radin Anonyme</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    
+    <style>
+        body {
+            background-color: #e0e0e0;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 20px;
+        }
+        .ticket {
+            background: #fff;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-top: 2px dashed #999;
+            border-bottom: 2px dashed #999;
+        }
+        h1 {
+            text-align: center;
+            text-transform: uppercase;
+            border-bottom: 3px solid #000;
+            padding-bottom: 15px;
+            letter-spacing: 2px;
+        }
+        .slogan {
+            text-align: center;
+            margin: 20px 0 30px 0;
+            font-size: 0.9em;
+        }
+        .form-box {
+            background: #ffffcc;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 2px solid #e0e0aa;
+        }
+        .confession-item {
+            background: #fafafa;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #333;
+            border-bottom: 1px dotted #ccc;
+        }
+        .meta {
+            font-size: 0.85em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .confession-body {
+            font-size: 1.1em;
+            margin: 15px 0;
+            line-height: 1.6;
+        }
+        .vote-btn {
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            border: 2px solid #333;
+        }
+        .vote-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .footer-ticket {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px dashed #999;
+        }
+    </style>
+</head>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+
+<div class="ticket">
+    <h1>🐀 MOINS CHER QU'UN CAFÉ</h1>
+    <div class="slogan">
+        **** TICKET DE RATS ****<br>
+        Partagez vos meilleures radineries
+    </div>
+
+    <!-- Formulaire d'ajout -->
+    <div class="form-box">
+        <form method="post" hx-post="{% url 'index' %}" hx-target="#confessions-list" hx-swap="afterbegin" hx-on::after-request="this.reset()">
+            {% csrf_token %}
+            {{ form.captcha }}
+            <div class="mb-3">
+                <label for="{{ form.body.id_for_label }}" class="form-label fw-bold">
+                    NOUVELLE RADINERIE :
+                </label>
+                {{ form.body }}
+            </div>
+            <button type="submit" class="btn btn-dark w-100 fw-bold">
+                📝 IMPRIMER MA RADINERIE
+            </button>
+        </form>
+    </div>
+
+    <!-- Liste des confessions -->
+    <div id="confessions-list">
+    {% for conf in page_obj %}
+        {% include 'radin/partials/confession_item.html' %}
+    {% empty %}
+    <div class="text-center py-5">
+        <p class="text-muted">Aucune radinerie pour le moment...</p>
+        <p>Soyez le premier à confesser ! 🐀</p>
+    </div>
+    {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if page_obj.has_other_pages %}
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1">« Début</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">‹ Précédent</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">« Début</span>
+            </li>
+            <li class="page-item disabled">
+                <span class="page-link">‹ Précédent</span>
+            </li>
+            {% endif %}
+
+            <li class="page-item active">
+                <span class="page-link">
+                    Page {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+                </span>
+            </li>
+
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Suivant ›</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Fin »</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">Suivant ›</span>
+            </li>
+            <li class="page-item disabled">
+                <span class="page-link">Fin »</span>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+
+    <div class="footer-ticket">
+        MERCI DE VOTRE VISITE<br>
+        💰 GARDEZ VOTRE MONNAIE 💰
+    </div>
+</div>
+
+</body>
+</html>

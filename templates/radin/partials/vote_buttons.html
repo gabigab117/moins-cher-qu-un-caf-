@@ -1,0 +1,26 @@
+<div class="d-flex gap-2 mt-3" id="vote-buttons-{{ conf.id }}">
+    {% if voted %}
+        <button class="btn btn-outline-success vote-btn flex-fill" disabled>
+            🧠 GÉNIE ({{ conf.votes_genie }})
+        </button>
+        <button class="btn btn-outline-danger vote-btn flex-fill" disabled>
+            🐀 RAT ({{ conf.votes_rat }})
+        </button>
+    {% else %}
+        <button 
+            class="btn btn-outline-success vote-btn flex-fill"
+            hx-post="{% url 'vote' conf.id 'genie' %}"
+            hx-target="#vote-buttons-{{ conf.id }}"
+            hx-swap="outerHTML">
+            🧠 GÉNIE ({{ conf.votes_genie }})
+        </button>
+        <button 
+            class="btn btn-outline-danger vote-btn flex-fill"
+            hx-post="{% url 'vote' conf.id 'rat' %}"
+            hx-target="#vote-buttons-{{ conf.id }}"
+            hx-swap="outerHTML">
+            🐀 RAT ({{ conf.votes_rat }})
+        </button>
+    {% endif %}
+</div>
+<div id="vote-message-{{ conf.id }}" class="text-center mt-2"></div>
