@@ -91,7 +91,6 @@
     <div class="form-box">
         <form method="post" hx-post="{% url 'index' %}" hx-target="#confessions-list" hx-swap="afterbegin" hx-on::after-request="this.reset()">
             {% csrf_token %}
-            {{ form.captcha }}
             <div class="mb-3">
                 <label for="{{ form.body.id_for_label }}" class="form-label fw-bold">
                     NOUVELLE RADINERIE :

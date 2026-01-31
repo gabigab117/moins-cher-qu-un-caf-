@@ -8,7 +8,7 @@ import sys
 class ConfessionForm(forms.ModelForm):
     class Meta:
         model = Confession
-        fields = ['body', 'captcha']
+        fields = ['body']
         widgets = {
             'body': forms.Textarea(attrs={
                 'class': 'form-control', 
@@ -17,9 +17,9 @@ class ConfessionForm(forms.ModelForm):
                 'maxlength': 280
             }),
         }
-    captcha = ReCaptchaField(widget=ReCaptchaV3)
+    # captcha = ReCaptchaField(widget=ReCaptchaV3)
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if 'test' in sys.argv:
-            del self.fields['captcha']
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     if 'test' in sys.argv:
+    #         del self.fields['captcha']
