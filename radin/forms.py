@@ -1,14 +1,21 @@
 from django import forms
 from .models import Confession
-from django_recaptcha.fields import ReCaptchaField
-from django_recaptcha.widgets import ReCaptchaV3
-import sys
 
 
 class ConfessionForm(forms.ModelForm):
+    # Champ honeypot - invisible pour les humains, mais les bots le remplissent
+    website = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={
+            'style': 'display:none !important;',
+            'tabindex': '-1',
+            'autocomplete': 'off'
+        })
+    )
+    
     class Meta:
         model = Confession
-        fields = ['body']
+        fields = ['body', 'website']
         widgets = {
             'body': forms.Textarea(attrs={
                 'class': 'form-control', 
@@ -17,9 +24,10 @@ class ConfessionForm(forms.ModelForm):
                 'maxlength': 280
             }),
         }
-    # captcha = ReCaptchaField(widget=ReCaptchaV3)
-
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     if 'test' in sys.argv:
-    #         del self.fields['captcha']
+    
+    def clean_website(self):
+        """Si le champ honeypot est rempli, c'est un bot"""
+        website = self.cleaned_data.get('website')
+        if website:
+            raise forms.ValidationError("Spam détecté")
+        return website
