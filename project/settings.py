@@ -128,6 +128,8 @@ STATICFILES_DIRS = [
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "mediafiles"
 
+RATELIMIT_IP_META_KEY = 'HTTP_X_FORWARDED_FOR'
+
 
 if not DEBUG:
     # HTTPS settings
